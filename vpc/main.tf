@@ -28,5 +28,5 @@ module "security-groups" {
   source = "../modules/security-groups"
 
   vpc_id = module.vpc.id
-  tags = var.tags
+  tags   = var.tags
 }
