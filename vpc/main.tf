@@ -1,47 +1,32 @@
+
 provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_vpc" "vpc" {
-  cidr_block = "172.31.0.0/16"
-  instance_tenancy = "dedicated"
-  tags = merge(map("Name", var.vpc_name), var.tags)
+module "vpc" {
+  source = "../modules/vpc"
+
+  availability_zone_a = var.availability_zone_a
+  availability_zone_b = var.availability_zone_b
+  availability_zone_c = var.availability_zone_c
+
+  vpc_name = var.vpc_name
+  vpc_cidr = var.vpc_cidr
+
+  public_subnet_a_cidr = var.public_subnet_a_cidr
+  public_subnet_b_cidr = var.public_subnet_b_cidr
+  public_subnet_c_cidr = var.public_subnet_c_cidr
+
+  private_subnet_a_cidr = var.private_subnet_a_cidr
+  private_subnet_b_cidr = var.private_subnet_b_cidr
+  private_subnet_c_cidr = var.private_subnet_c_cidr
+
+  tags = var.tags
 }
 
-# Subnets
-resource "aws_subnet" "vpc-subnet-a-public" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = "172.31.0.0/20"
-  availability_zone = var.aws_zones[0]
-  tags = merge(map("Name", "vpc-subnet-a-public"), var.tags)
-}
-resource "aws_subnet" "vpc-subnet-a-private" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = "172.31.240.0/20"
-  availability_zone = var.aws_zones[0]
-  tags = merge(map("Name", "vpc-subnet-a-private"), var.tags)
-}
-resource "aws_subnet" "vpc-subnet-b-public" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = "172.31.16.0/20"
-  availability_zone = var.aws_zones[1]
-  tags = merge(map("Name", "vpc-subnet-b-public"), var.tags)
-}
-resource "aws_subnet" "vpc-subnet-b-private" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = "172.31.224.0/20"
-  availability_zone = var.aws_zones[1]
-  tags = merge(map("Name", "vpc-subnet-b-private"), var.tags)
-}
-resource "aws_subnet" "vpc-subnet-c-public" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = "172.31.32.0/20"
-  availability_zone = var.aws_zones[2]
-  tags = merge(map("Name", "vpc-subnet-c-public"), var.tags)
-}
-resource "aws_subnet" "vpc-subnet-c-private" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = "172.31.208.0/20"
-  availability_zone = var.aws_zones[2]
-  tags = merge(map("Name", "vpc-subnet-c-private"), var.tags)
+module "security-groups" {
+  source = "../modules/security-groups"
+
+  vpc_id = module.vpc.id
+  tags = var.tags
 }

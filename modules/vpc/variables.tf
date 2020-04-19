@@ -1,9 +1,3 @@
-# AWS Regions / Zones
-variable aws_region {
-  type = string
-  description = "AWS region which should be used"
-}
-
 # AWS availability zones
 variable availability_zone_a {
   type = string
