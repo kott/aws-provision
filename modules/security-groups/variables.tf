@@ -4,6 +4,11 @@ variable "vpc_id" {
   description = "ID of the created VPC"
 }
 
+variable "vpc_name" {
+  type        = string
+  description = "Name of the created VPC"
+}
+
 variable "vpc_cidr" {
   type        = string
   description = "CIDR block of the created VPC"

@@ -28,6 +28,7 @@ module "security-groups" {
   source = "../modules/security-groups"
 
   vpc_id   = module.vpc.id
+  vpc_name = var.vpc_name
   vpc_cidr = module.vpc.cidr
   tags     = var.tags
 }

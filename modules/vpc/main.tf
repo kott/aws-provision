@@ -7,23 +7,23 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
-  tags   = merge(map("Name", format("igw-%v", var.vpc_name)), var.tags)
+  tags   = merge(map("Name", format("%v-igw", var.vpc_name)), var.tags)
 }
 
 # elastic IPs (one per AZ)
 resource "aws_eip" "eip_a" {
   vpc  = true
-  tags = merge(map("Name", "eip-a"), var.tags)
+  tags = merge(map("Name", format("%v-eip-a", var.vpc_name)), var.tags)
 }
 
 resource "aws_eip" "eip_b" {
   vpc  = true
-  tags = merge(map("Name", "eip-b"), var.tags)
+  tags = merge(map("Name", format("%v-eip-b", var.vpc_name)), var.tags)
 }
 
 resource "aws_eip" "eip_c" {
   vpc  = true
-  tags = merge(map("Name", "eip-c"), var.tags)
+  tags = merge(map("Name", format("%v-eip-c", var.vpc_name)), var.tags)
 }
 
 
@@ -34,13 +34,13 @@ resource "aws_subnet" "vpc_subnet_a_public" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_a_cidr
   availability_zone = var.availability_zone_a
-  tags              = merge(map("Name", "vpc-subnet-a-public"), var.tags)
+  tags              = merge(map("Name", format("%v-subnet-a-public", var.vpc_name)), var.tags)
 }
 
 resource "aws_nat_gateway" "nat_subnet_a" {
   allocation_id = aws_eip.eip_a.id
   subnet_id     = aws_subnet.vpc_subnet_a_public.id
-  tags          = merge(map("Name", "nat-subnet-a"), var.tags)
+  tags          = merge(map("Name", format("%v-nat-subnet-a", var.vpc_name)), var.tags)
   depends_on    = [aws_eip.eip_a, aws_internet_gateway.igw, aws_subnet.vpc_subnet_a_public]
 }
 
@@ -49,13 +49,13 @@ resource "aws_subnet" "vpc_subnet_b_public" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_b_cidr
   availability_zone = var.availability_zone_b
-  tags              = merge(map("Name", "vpc-subnet-b-public"), var.tags)
+  tags              = merge(map("Name", format("%v-vpc-subnet-b-public", var.vpc_name)), var.tags)
 }
 
 resource "aws_nat_gateway" "nat_subnet_b" {
   allocation_id = aws_eip.eip_b.id
   subnet_id     = aws_subnet.vpc_subnet_b_public.id
-  tags          = merge(map("Name", "nat-subnet-b"), var.tags)
+  tags          = merge(map("Name", format("%v-nat-subnet-b", var.vpc_name)), var.tags)
   depends_on    = [aws_eip.eip_b, aws_internet_gateway.igw, aws_subnet.vpc_subnet_b_public]
 }
 
@@ -64,7 +64,7 @@ resource "aws_subnet" "vpc_subnet_c_public" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_c_cidr
   availability_zone = var.availability_zone_c
-  tags              = merge(map("Name", "vpc-subnet-c-public"), var.tags)
+  tags              = merge(map("Name", format("%v-vpc-subnet-c-public", var.vpc_name)), var.tags)
 }
 
 resource "aws_nat_gateway" "nat_subnet_c" {
@@ -82,7 +82,7 @@ resource "aws_subnet" "vpc_subnet_a_private" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_a_cidr
   availability_zone = var.availability_zone_a
-  tags              = merge(map("Name", "vpc-subnet-a-private"), var.tags)
+  tags              = merge(map("Name", format("%v-vpc-subnet-a-private", var.vpc_name)), var.tags)
 }
 
 # private subnet b
@@ -90,7 +90,7 @@ resource "aws_subnet" "vpc_subnet_b_private" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_b_cidr
   availability_zone = var.availability_zone_b
-  tags              = merge(map("Name", "vpc-subnet-b-private"), var.tags)
+  tags              = merge(map("Name", format("%v-vpc-subnet-b-private", var.vpc_name)), var.tags)
 }
 
 # private subnet c
@@ -98,7 +98,7 @@ resource "aws_subnet" "vpc_subnet_c_private" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_c_cidr
   availability_zone = var.availability_zone_c
-  tags              = merge(map("Name", "vpc-subnet-c-private"), var.tags)
+  tags              = merge(map("Name", format("%v-vpc-subnet-c-private", var.vpc_name)), var.tags)
 }
 
 # routing – defining the routes within a subnet and associating the subnet with the route table

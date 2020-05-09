@@ -18,7 +18,7 @@ resource "aws_security_group" "jumpbox" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(map("Name", "jumpbox-security-group"), var.tags)
+  tags = merge(map("Name", format("%v-jumpbox-security-group", var.vpc_name)), var.tags)
 }
 
 resource "aws_security_group" "public_node" {
@@ -49,7 +49,7 @@ resource "aws_security_group" "public_node" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(map("Name", "public-node-security-group"), var.tags)
+  tags = merge(map("Name", format("%v-public-node-security-group", var.vpc_name)), var.tags)
 }
 
 resource "aws_security_group" "private_node" {
@@ -80,7 +80,7 @@ resource "aws_security_group" "private_node" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(map("Name", "public-node-security-group"), var.tags)
+  tags = merge(map("Name", format("%v-public-node-security-group", var.vpc_name)), var.tags)
 }
 
 resource "aws_security_group" "database" {
@@ -103,5 +103,5 @@ resource "aws_security_group" "database" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(map("Name", "database-security-group"), var.tags)
+  tags = merge(map("Name", format("%v-database-security-group", var.vpc_name), var.tags)
 }
