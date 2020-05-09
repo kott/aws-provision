@@ -5,7 +5,7 @@ availability_zone_a = "us-east-2a"
 availability_zone_b = "us-east-2b"
 availability_zone_c = "us-east-2c"
 
-vpc_name = "dev-vpc"
+vpc_name = "dev"
 vpc_cidr = "172.31.0.0/16"
 
 public_subnet_a_cidr = "172.31.0.0/20"
