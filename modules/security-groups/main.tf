@@ -103,5 +103,5 @@ resource "aws_security_group" "database" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(map("Name", format("%v-database-security-group", var.vpc_name), var.tags)
+  tags = merge(map("Name", format("%v-database-security-group", var.vpc_name)), var.tags)
 }
