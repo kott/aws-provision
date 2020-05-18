@@ -56,7 +56,6 @@ variable "private_subnet_c_cidr" {
   description = "CIDR block"
 }
 
-# Tags
 variable "tags" {
   description = "Various tag values assigned to AWS resources"
   type        = map(string)

@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "../modules/vpc"
+  source = "./modules/vpc"
 
   availability_zone_a = var.availability_zone_a
   availability_zone_b = var.availability_zone_b
@@ -25,10 +25,17 @@ module "vpc" {
 }
 
 module "security-groups" {
-  source = "../modules/security-groups"
+  source = "./modules/security-groups"
 
   vpc_id   = module.vpc.id
   vpc_name = var.vpc_name
   vpc_cidr = module.vpc.cidr
   tags     = var.tags
+}
+
+module "service" {
+  source       = "./modules/service"
+  vpc_name     = var.vpc_name
+  service_name = "example-service"
+  tags         = var.tags
 }
