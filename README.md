@@ -1,6 +1,6 @@
-# aws-provision
+# AWS-Provision
 
-This repo will be a collection of scripts to provision new environments in AWS. In particular, this will focus on deploying to ECS clusters.
+This repository will be a collection of scripts to provision new environments in AWS. In particular, this will focus on deploying to ECS clusters.
 
 So far this repository can provision the following resources on AWS:
 * VPC
